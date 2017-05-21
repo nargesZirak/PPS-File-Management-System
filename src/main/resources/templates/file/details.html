@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="layout :: head(${file.description})"></head>
+<body>
+<div th:replace="layout :: nav"></div>
+<div th:replace="layout :: searchbar"></div>
+<div th:replace="layout :: flash"></div>
+<div class="file-detail container">
+    <div class="frame row">
+        <div class="col s12 actions">
+            <iframe th:src="@{|/files/${file.id}.png|}" alt="file"></iframe>
+            <form th:action="@{|/files/${file.id}/favorite|}" method="post">
+                <button type="submit" th:class="(${file.favorite}? 'un' : '') + 'mark favorite'"></button>
+            </form>
+        </div>
+    </div>
+    <div class="meta row">
+        <div class="col s10 l11 push-l1">
+            <h4 th:text="${file.description}"></h4>
+            <div>
+                <span class="user" th:text="|${file.timeSinceUploaded} ago by ${file.username}|"></span>
+                <span class="category"><a th:href="@{|/categories/${file.category.id}|}" th:text="${file.category.name}" th:style="|color:${file.category.colorCode}|"></a></span>
+                <div class="actions">
+                    <a th:href="@{|/files/${file.id}/edit|}">Edit</a>
+                    <form th:action="@{|/files/${file.id}/delete|}" method="post">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col s2 l1 pull-l11">
+            <img class="circle" th:src="@{/images/me.jpg}" alt="avatar" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 l11 offset-l1">
+            <div class="divider"></div>
+        </div>
+        <div class="col s12 l8 offset-l1">
+            <div class="share">
+                <a class="btn right" href="#">Copy</a>
+                <span th:text="|http://file.fy/${file.hash}|">URL</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="layout :: scripts"></div>
+</body>
+</html>
